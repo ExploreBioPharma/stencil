@@ -14,6 +14,52 @@ describe('bundle', () => {
   });
 
 
+  fit('handle circular dep exports', async () => {
+    c.config.bundles = [ { components: ['imports-circular']} ];
+    await c.fs.writeFiles({
+      '/src/imports-circular.tsx': `
+        import { valueA } from "./module-a";
+        import { valueB } from "./module-b";
+
+        @Component({
+          tag: "imports-circular"
+        })
+        export class ImportsCircular {
+          render() {
+            return (
+              <div>
+                <div>valueA: {valueA}</div>
+                <div>valueB: {valueB}</div>
+              </div>
+            );
+          }
+        }
+      `,
+      '/src/module-a.ts': `
+        import { valueB } from "./module-b";
+        export const valueA = 'value A';
+        console.log(valueB);
+      `,
+      '/src/module-b.ts': `
+        import { valueA } from "./module-a";
+        export const valueB = 'value B';
+        console.log(valueA);
+      `,
+    }, { clearFileCache: true });
+
+    await c.fs.commit();
+
+    const r = await c.build();
+    expect(r.diagnostics).toEqual([]);
+    expect(r.bundleBuildCount).toEqual(1);
+
+    const content = await c.fs.readFile('/www/build/app/imports-circular.js');
+    console.log(content)
+    expect(content).toContain('const valueA');
+    expect(content).toContain('const valueB');
+    expect(content).toContain('class ImportsCircular');
+  });
+
   it('should resolve directory index w/ exports', async () => {
     c.config.bundles = [ { components: ['x-bar']} ];
     await c.fs.writeFiles({
@@ -43,7 +89,11 @@ describe('bundle', () => {
 
     const r = await c.build();
     expect(r.diagnostics).toEqual([]);
+    expect(r.bundleBuildCount).toEqual(1);
 
+    const content = await c.fs.readFile('/www/build/app/x-bar.js');
+    expect(content).toContain('const foo');
+    expect(content).toContain('class Bar');
   });
 
   it('wildcard imports should remain within component files', async () => {
