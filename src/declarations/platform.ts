@@ -4,7 +4,7 @@ import { RUNTIME_ERROR } from '../util/constants';
 
 export interface PlatformApi {
   activeRender?: boolean;
-  attachStyles?: (domApi: d.DomApi, cmpMeta: d.ComponentMeta, modeName: string, elm: d.HostElement, customStyle?: any) => void;
+  attachStyles?: (plt: PlatformApi, domApi: d.DomApi, cmpMeta: d.ComponentMeta, modeName: string, elm: d.HostElement, customStyle?: any) => void;
   connectHostElement: (cmpMeta: d.ComponentMeta, elm: d.HostElement) => void;
   defineComponent: (cmpMeta: d.ComponentMeta, HostElementConstructor?: any) => void;
   domApi?: d.DomApi;
@@ -23,6 +23,21 @@ export interface PlatformApi {
   registerComponents?: (components?: d.LoadComponentRegistry[]) => d.ComponentMeta[];
   render?: d.RendererApi;
   tmpDisconnected?: boolean;
+
+  ancestorHostElementMap?: WeakMap<d.HostElement, d.HostElement>;
+  componentAppliedStyles?: WeakMap<Node, d.ComponentAppliedStyles>;
+  defaultSlotsMap?: WeakMap<d.HostElement, d.DefaultSlot>;
+  hasConnectedMap?: WeakMap<d.HostElement, boolean>;
+  hasListenersMap?: WeakMap<d.HostElement, boolean>;
+  hasLoadedMap?: WeakMap<d.HostElement, boolean>;
+  instanceMap?: WeakMap<d.HostElement, d.ComponentInstance>;
+  isDisconnectedMap?: WeakMap<d.HostElement, boolean>;
+  isQueuedForUpdate?: WeakMap<d.HostElement, boolean>;
+  namedSlotsMap?: WeakMap<d.HostElement, d.NamedSlots>;
+  onReadyCallbacksMap?: WeakMap<d.HostElement, d.OnReadyCallback[]>;
+  queuedEvents?: WeakMap<d.HostElement, any[]>;
+  vnodeMap?: WeakMap<d.HostElement, d.VNode>;
+  valuesMap?: WeakMap<d.HostElement, any>;
 }
 
 

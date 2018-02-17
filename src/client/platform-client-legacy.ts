@@ -77,11 +77,11 @@ export function createPlatformClientLegacy(Context: CoreContext, App: AppGlobal,
   rootElm.$activeLoading = [];
 
   // this will fire when all components have finished loaded
-  rootElm.$initLoad = () => rootElm._hasLoaded = true;
+  rootElm.$initLoad = () => plt.hasLoadedMap.set(rootElm, true);
 
   // if the HTML was generated from SSR
   // then let's walk the tree and generate vnodes out of the data
-  createVNodesFromSsr(domApi, rootElm);
+  createVNodesFromSsr(plt, domApi, rootElm);
 
   function connectHostElement(cmpMeta: ComponentMeta, elm: HostElement) {
     // set the "mode" property
@@ -97,7 +97,7 @@ export function createPlatformClientLegacy(Context: CoreContext, App: AppGlobal,
       // only required when we're NOT using native shadow dom (slot)
       // this host element was NOT created with SSR
       // let's pick out the inner content for slot projection
-      assignHostContentSlots(domApi, elm, elm.childNodes);
+      assignHostContentSlots(plt, domApi, elm, elm.childNodes);
     }
 
     if (!domApi.$supportsShadowDom && cmpMeta.encapsulation === ENCAPSULATION.ShadowDom) {
@@ -333,8 +333,8 @@ export function createPlatformClientLegacy(Context: CoreContext, App: AppGlobal,
   }
 
   if (Build.styles) {
-    plt.attachStyles = (domApi, cmpMeta, modeName, elm) => {
-      attachStyles(domApi, cmpMeta, modeName, elm, customStyle);
+    plt.attachStyles = (plt, domApi, cmpMeta, modeName, elm) => {
+      attachStyles(plt, domApi, cmpMeta, modeName, elm, customStyle);
     };
   }
 

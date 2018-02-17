@@ -12,9 +12,11 @@ export function proxyComponentInstance(plt: PlatformApi, cmpConstructor: Compone
   // let's automatically add a reference to the host element on the instance
   instance.__el = elm;
 
-  // create the _values object if it doesn't already exist
+  // create the values object if it doesn't already exist
   // this will hold all of the internal getter/setter values
-  elm._values = elm._values || {};
+  if (!plt.valuesMap.has(elm)) {
+    plt.valuesMap.set(elm, {});
+  }
 
   // get the properties from the constructor
   // and add default "mode" and "color" properties

@@ -1,6 +1,6 @@
 import { Cache } from '../compiler/cache';
-import { CompilerCtx, ComponentInstance, ComponentMeta, ComponentRegistry, Config, DomApi, HostContentNodes, HostElement,
-  HydrateOptions, HydrateResults, PlatformApi, RendererApi, StencilSystem, VNode } from '../declarations';
+import { CompilerCtx, ComponentInstance, ComponentMeta, ComponentRegistry, Config, DefaultSlot, DomApi, HostElement,
+  HydrateOptions, HydrateResults, NamedSlots, PlatformApi, RendererApi, StencilSystem, VNode } from '../declarations';
 import { createDomApi } from '../core/renderer/dom-api';
 import { createPlatformServer } from '../server/platform-server';
 import { createRendererPatch } from '../core/renderer/patch';
@@ -60,8 +60,8 @@ export function mockPlatform(win?: any, domApi?: DomApi) {
 
   const renderer = createRendererPatch(plt, domApi);
 
-  plt.render = function(oldVNode: VNode, newVNode: VNode, isUpdate: boolean, hostElementContentNode?: HostContentNodes) {
-    return renderer(oldVNode, newVNode, isUpdate, hostElementContentNode);
+  plt.render = function(oldVNode: VNode, newVNode: VNode, isUpdate: boolean, defaultSlot?: DefaultSlot, namedSlots?: NamedSlots) {
+    return renderer(oldVNode, newVNode, isUpdate, defaultSlot, namedSlots);
   };
 
   return (<MockedPlatform>plt);
@@ -246,10 +246,10 @@ function connectComponents(plt: MockedPlatform, node: HostElement) {
   if (!node) return;
 
   if (node.tagName) {
-    if (!node.$connected) {
-      const cmpMeta = (<PlatformApi>plt).getComponentMeta(node);
+    if (!plt.hasConnectedMap.has(node)) {
+      const cmpMeta = (plt as PlatformApi).getComponentMeta(node);
       if (cmpMeta) {
-        initHostElement((<PlatformApi>plt), cmpMeta, node);
+        initHostElement((plt as PlatformApi), cmpMeta, node);
         (<HostElement>node).connectedCallback();
       }
     }

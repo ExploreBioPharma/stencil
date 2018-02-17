@@ -1,6 +1,6 @@
 import { AppGlobal, CjsExports, CompilerCtx, ComponentMeta,
   ComponentRegistry, Config, CoreContext, Diagnostic,
-  HostElement, HydrateResults, PlatformApi } from '../util/interfaces';
+  HostElement, HydrateResults, PlatformApi } from '../declarations';
 import { assignHostContentSlots } from '../core/renderer/slot';
 import { createDomApi } from '../core/renderer/dom-api';
 import { createQueueServer } from './queue-server';
@@ -100,12 +100,12 @@ export function createPlatformServer(
   rootElm.$rendered = true;
   rootElm.$activeLoading = [];
   rootElm.$initLoad = function appLoadedCallback() {
-    rootElm._hasLoaded = true;
+    plt.hasLoadedMap.set(rootElm, true);
     appLoaded();
   };
 
   function appLoaded(failureDiagnostic?: Diagnostic) {
-    if (rootElm._hasLoaded || failureDiagnostic) {
+    if (plt.hasLoadedMap.has(rootElm) || failureDiagnostic) {
       // the root node has loaded
       // and there are no css files still loading
       plt.onAppLoad && plt.onAppLoad(rootElm, styles, failureDiagnostic);
@@ -122,7 +122,7 @@ export function createPlatformServer(
     }
 
     // pick out all of the light dom nodes from the host element
-    assignHostContentSlots(domApi, elm, elm.childNodes);
+    assignHostContentSlots(plt, domApi, elm, elm.childNodes);
   }
 
 

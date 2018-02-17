@@ -265,7 +265,6 @@ const RESERVED_PROPERTIES: string[] = [
    * Properties set on the host element
    */
   '$activeLoading',
-  '$connected',
   '$defaultHolder',
   '$initLoad',
   '$rendered',
