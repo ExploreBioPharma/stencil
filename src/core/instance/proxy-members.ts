@@ -15,13 +15,13 @@ export function defineMember(
   function getComponentProp(this: ComponentInstance, values?: any) {
     // component instance prop/state getter
     // get the property value directly from our internal values
-    values = plt.valuesMap.get(this.__el);
+    values = plt.valuesMap.get(plt.hostElementMap.get(this));
     return values && values[memberName];
   }
 
   function setComponentProp(this: ComponentInstance, newValue: any, elm?: HostElement) {
     // component instance prop/state setter (cannot be arrow fn)
-    elm = this.__el;
+    elm = plt.hostElementMap.get(this);
 
     if (elm) {
       if (property.state || property.mutable) {

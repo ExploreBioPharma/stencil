@@ -54,7 +54,7 @@ export function createListenerCallback(plt: PlatformApi, elm: HostElement, event
 export function enableEventListener(plt: PlatformApi, instance: ComponentInstance, eventName: string, shouldEnable: boolean, attachTo?: string|Element, passive?: boolean) {
   if (instance) {
     // cool, we've got an instance, it's get the element it's on
-    const elm = instance.__el;
+    const elm = plt.hostElementMap.get(instance);
     const cmpMeta = plt.getComponentMeta(elm);
 
     if (cmpMeta && cmpMeta.listenersMeta) {

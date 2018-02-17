@@ -10,7 +10,7 @@ export function proxyComponentInstance(plt: PlatformApi, cmpConstructor: Compone
   // and let's have the getters/setters kick in and do their jobs
 
   // let's automatically add a reference to the host element on the instance
-  instance.__el = elm;
+  plt.hostElementMap.set(instance, elm);
 
   // create the values object if it doesn't already exist
   // this will hold all of the internal getter/setter values

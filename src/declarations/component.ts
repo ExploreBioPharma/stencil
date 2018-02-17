@@ -189,9 +189,6 @@ export interface ComponentInstance {
   mode?: string;
   color?: string;
 
-  // private properties
-  __el?: HostElement;
-
   [memberName: string]: any;
 }
 

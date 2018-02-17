@@ -67,6 +67,7 @@ export function createPlatformClient(Context: CoreContext, App: AppGlobal, win: 
     hasConnectedMap: new WeakMap(),
     hasListenersMap: new WeakMap(),
     hasLoadedMap: new WeakMap(),
+    hostElementMap: new WeakMap(),
     instanceMap: new WeakMap(),
     isDisconnectedMap: new WeakMap(),
     isQueuedForUpdate: new WeakMap(),

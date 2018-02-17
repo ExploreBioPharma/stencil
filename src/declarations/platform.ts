@@ -30,6 +30,7 @@ export interface PlatformApi {
   hasConnectedMap?: WeakMap<d.HostElement, boolean>;
   hasListenersMap?: WeakMap<d.HostElement, boolean>;
   hasLoadedMap?: WeakMap<d.HostElement, boolean>;
+  hostElementMap?: WeakMap<d.ComponentInstance, d.HostElement>;
   instanceMap?: WeakMap<d.HostElement, d.ComponentInstance>;
   isDisconnectedMap?: WeakMap<d.HostElement, boolean>;
   isQueuedForUpdate?: WeakMap<d.HostElement, boolean>;
