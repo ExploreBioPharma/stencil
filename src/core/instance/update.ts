@@ -82,18 +82,18 @@ export function update(plt: PlatformApi, elm: HostElement, isInitialLoad?: boole
       // looks like the user return a promise!
       // let's not actually kick off the render
       // until the user has resolved their promise
-      userPromise.then(() => renderUpdate(plt, elm, isInitialLoad, instance));
+      userPromise.then(() => renderUpdate(plt, elm, instance, isInitialLoad));
 
     } else {
       // user never returned a promise so there's
       // no need to wait on anything, let's do the render now my friend
-      renderUpdate(plt, elm, isInitialLoad, instance);
+      renderUpdate(plt, elm, instance, isInitialLoad);
     }
   }
 }
 
 
-export function renderUpdate(plt: PlatformApi, elm: HostElement, isInitialLoad: boolean, instance: ComponentInstance) {
+export function renderUpdate(plt: PlatformApi, elm: HostElement, instance: ComponentInstance, isInitialLoad: boolean) {
   // if this component has a render function, let's fire
   // it off and generate a vnode for this
   render(plt, plt.getComponentMeta(elm), elm, instance, !isInitialLoad);
