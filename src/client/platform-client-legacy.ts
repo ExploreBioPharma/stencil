@@ -64,7 +64,23 @@ export function createPlatformClientLegacy(Context: CoreContext, App: AppGlobal,
     onError: (err, type, elm) => console.error(err, type, elm && elm.tagName),
     propConnect: ctrlTag => proxyController(domApi, controllerComponents, ctrlTag),
     queue: createQueueClient(win),
-    registerComponents: (components: LoadComponentRegistry[]) => (components || []).map(data => parseComponentLoader(data, cmpRegistry))
+    registerComponents: (components: LoadComponentRegistry[]) => (components || []).map(data => parseComponentLoader(data, cmpRegistry)),
+
+    ancestorHostElementMap: new WeakMap(),
+    componentAppliedStyles: new WeakMap(),
+    defaultSlotsMap: new WeakMap(),
+    hasConnectedMap: new WeakMap(),
+    hasListenersMap: new WeakMap(),
+    hasLoadedMap: new WeakMap(),
+    hostElementMap: new WeakMap(),
+    instanceMap: new WeakMap(),
+    isDisconnectedMap: new WeakMap(),
+    isQueuedForUpdate: new WeakMap(),
+    namedSlotsMap: new WeakMap(),
+    onReadyCallbacksMap: new WeakMap(),
+    queuedEvents: new WeakMap(),
+    vnodeMap: new WeakMap(),
+    valuesMap: new WeakMap()
   };
 
   // create the renderer that will be used
