@@ -262,19 +262,21 @@ function connectComponents(plt: MockedPlatform, node: HostElement) {
 }
 
 
-export function waitForLoad(plt: MockedPlatform, rootNode: any, tag: string): Promise<HostElement> {
+export async function waitForLoad(plt: MockedPlatform, rootNode: any, tag: string): Promise<HostElement> {
   const elm: HostElement = rootNode.tagName === tag.toLowerCase() ? rootNode : rootNode.querySelector(tag);
 
-  return plt.$flushQueue()
     // flush to read attribute mode on host elment
-    .then(() => plt.$flushLoadBundle())
-    // flush to load component mode data
-    .then(() => plt.$flushQueue())
-    .then(() => {
-      // flush to do the update
-      connectComponents(plt, elm);
-      return elm;
-    });
+  await plt.$flushQueue();
+
+  // flush requesting and loading the bundle
+  await plt.$flushLoadBundle();
+
+  // flush to load component mode data
+  await plt.$flushQueue();
+
+  connectComponents(plt, elm);
+
+  return elm;
 }
 
 
