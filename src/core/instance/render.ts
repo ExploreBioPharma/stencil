@@ -6,7 +6,7 @@ import { RUNTIME_ERROR } from '../../util/constants';
 import { VNode as VNodeObj } from '../renderer/vnode';
 
 
-export function render(plt: PlatformApi, elm: HostElement, cmpMeta: ComponentMeta, instance: ComponentInstance, isUpdateRender: boolean) {
+export function render(plt: PlatformApi, cmpMeta: ComponentMeta, elm: HostElement, instance: ComponentInstance, isUpdateRender: boolean) {
   try {
     // if this component has a render function, let's fire
     // it off and generate the child vnodes for this host element
