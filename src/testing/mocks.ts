@@ -194,8 +194,7 @@ export function mockComponentInstance(plt: PlatformApi, domApi: DomApi, cmpMeta:
   mockDefine(plt, cmpMeta);
 
   const el = domApi.$createElement('ion-cmp') as any;
-  initComponentInstance(plt, el);
-  return el._instance;
+  return initComponentInstance(plt, el);
 }
 
 export function mockTextNode(text: string): Element {

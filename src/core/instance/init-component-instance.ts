@@ -42,6 +42,7 @@ export function initComponentInstance(plt: PlatformApi, elm: HostElement, instan
             // take a look at initElementListener()
             instance[queuedEvents[i]](queuedEvents[i + 1]);
           }
+          plt.queuedEvents.delete(elm);
         }
 
       } catch (e) {
