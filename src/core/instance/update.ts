@@ -26,7 +26,8 @@ export function update(plt: PlatformApi, elm: HostElement, isInitialLoad?: boole
   // everything is async, so somehow we could have already disconnected
   // this node, so be sure to do nothing if we've already disconnected
   if (!plt.isDisconnectedMap.has(elm)) {
-    isInitialLoad = !plt.instanceMap.has(elm);
+    instance = plt.instanceMap.get(elm);
+    isInitialLoad = !instance;
     let userPromise: Promise<void>;
 
     if (isInitialLoad) {

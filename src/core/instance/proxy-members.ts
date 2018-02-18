@@ -139,8 +139,7 @@ export function setValue(plt: PlatformApi, elm: HostElement, memberName: string,
   // create the _values object if it doesn't already exist
   values = plt.valuesMap.get(elm);
   if (!values) {
-    values = {};
-    plt.valuesMap.set(elm, values);
+    plt.valuesMap.set(elm, values = {});
   }
 
   const oldVal = values[memberName];
